@@ -1,1 +1,1 @@
-# AlexeyNewsProject
+# Итоговое задание 3.6 (HW-03)
