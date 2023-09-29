@@ -41,6 +41,7 @@ class Category(models.Model):
 
 
 class Post(models.Model):
+    objects = None
     news = 'NW'
     article = 'AR'
 
