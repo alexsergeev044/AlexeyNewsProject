@@ -1,11 +1,12 @@
-from django.urls import path
-from .views import Posts, PostDetail, PostCreate, PostEdit, PostDelete
+from django.contrib import admin
+from django.urls import path, include
 
 
 urlpatterns = [
-    path('news', Posts.as_view(), name='home'),
-    path('news/<int:pk>', PostDetail.as_view(), name='post'),
-    path('news/create', PostCreate.as_view(), name='newpost'),
-    path('news/<int:pk>/edit', PostEdit.as_view(), name='edit'),
-    path('news/<int:pk>/delete', PostDelete.as_view(), name='deletenews')
-    ]
+   path('admin/', admin.site.urls),
+   # path('accounts/', include('django.contrib.auth.urls')),
+   # path('accounts/', include("accounts.urls")),
+   path('accounts/', include("allauth.urls")),
+   path('pages/', include('django.contrib.flatpages.urls')),
+   path('', include('news.urls')),
+]
