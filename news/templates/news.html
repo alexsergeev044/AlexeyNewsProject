@@ -1,0 +1,39 @@
+{% extends 'news/default.html' %}
+
+{% load cenzura %}
+
+{% block title %}
+NewsList
+{% endblock title %}
+
+{% block content %}
+   <hr>
+   {% if newslist %}
+       <table>
+           <tr>
+               <td>Заголовок</td>
+               <td>Дата публикации</td>
+               <td>Тип публикации</td>
+               <td>Категория</td>
+               <td>Краткое содержание</td>
+           </tr>
+
+           {% for news in newslist %}
+           <tr>
+               <td><a href="/post/{{ news.pk }}">{{ news.post_title|truncatewords:7|censor }}</a></td>
+               <td>{{ news.post_date|date:'d.m.Y H:i:s' }}</td>
+               <td>{{ news.get_post_type_display }}</td>
+               <td>
+                   {% for category in news.post_category.all %}
+                   {{ category }}
+                   {% endfor %}
+               </td>
+               <td>{{ news.post_text|truncatechars:20|censor }}</td>
+           </tr>
+           {% endfor %}
+       </table>
+   {% else %}
+       <h2>Новостей нет!</h2>
+   {% endif %}
+
+{% endblock content %}

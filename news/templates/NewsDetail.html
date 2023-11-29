@@ -1,0 +1,38 @@
+<!--  наследуемся от шаблона default.html, который мы создавали для flatpages -->
+{% extends 'flatpages/default.html' %}
+
+{% load custom_filter %}
+
+{% block title %}
+News
+{% endblock title %}
+
+{% block content %}
+<h1>Детальная информация</h1>
+<hr>
+<h4>Заголовок: {{ news.post_title|censor }}</h4>
+<h4>Дата публикации: {{ news.post_date|date:'d.m.Y H:i:s' }}</h4>
+<h4>Тип публикации: {{ news.get_post_type_display }}</h4>
+<h4>Категория:
+    {% for category in news.post_category.all %}
+    {{ category }}
+    {% endfor %}
+</h4>
+<h4>Полный текст: {{ news.post_text|censor }}</h4>
+<a href="/">Список</a>
+{% if news.post_type == 'NW' %}
+    {% if perms.news.change_post and request.user == news.post_author.author_user %}
+        <a href="{% url 'news_edit' news.pk %}">Редактировать</a>
+    {% endif %}
+    {% if perms.news.delete_post %}
+        <a href="{% url 'news_delete' news.pk %}">Удалить</a>
+    {% endif %}
+{% else %}
+    {% if perms.news.change_post and request.user == news.post_author.author_user %}
+        <a href="{% url 'articles_edit' news.pk %}">Редактировать</a>
+    {% endif %}
+    {% if perms.news.delete_post %}
+        <a href="{% url 'articles_delete' news.pk %}">Удалить</a>
+    {% endif %}
+{% endif %}
+{% endblock content %}
